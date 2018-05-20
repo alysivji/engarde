@@ -187,8 +187,18 @@ def is_same_as(df_to_compare, **assert_kwargs):
     return decorate
 
 
-__all__ = ['is_monotonic', 'is_same_as', 'is_shape', 'none_missing',
-           'unique_index', 'within_range', 'within_set', 'has_dtypes',
-           'verify', 'verify_all', 'verify_any', 'within_n_std',
-           'one_to_many','is_same_as',]
-
+__all__ = [
+    'has_dtypes',
+    'is_monotonic',
+    'is_same_as',
+    'is_shape',
+    'none_missing',
+    'one_to_many',
+    'unique_index',
+    'verify',
+    'verify_all',
+    'verify_any',
+    'within_n_std',
+    'within_range',
+    'within_set',
+]

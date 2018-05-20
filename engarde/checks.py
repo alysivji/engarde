@@ -253,9 +253,9 @@ def one_to_many(df, unitcol, manycol):
     ==========
     df : DataFrame
     unitcol : str
-        The column that encapulates the groups in ``manycol``.
+        The column that encapsulates the groups in ``manycol``.
     manycol : str
-        The column that must remain unique in the distict pairs
+        The column that must remain unique in the distinct pairs
         between ``manycol`` and ``unitcol``
 
     Returns
@@ -295,7 +295,18 @@ def is_same_as(df, df_to_compare, **kwargs):
     return df
 
 
-__all__ = ['is_monotonic', 'is_same_as', 'is_shape', 'none_missing',
-           'unique_index', 'within_n_std', 'within_range', 'within_set',
-           'has_dtypes', 'verify', 'verify_all', 'verify_any',
-           'one_to_many','is_same_as',]
+__all__ = [
+    'has_dtypes',
+    'is_monotonic',
+    'is_same_as',
+    'is_shape',
+    'none_missing',
+    'one_to_many',
+    'unique_index',
+    'verify',
+    'verify_all',
+    'verify_any',
+    'within_n_std',
+    'within_range',
+    'within_set',
+]
