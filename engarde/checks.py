@@ -272,27 +272,37 @@ def one_to_many(df, unitcol, manycol):
     return df
 
 
-def is_same_as(df, df_to_compare, **kwargs):
+def is_same_as(obj, obj_to_compare, **kwargs):
     """
-    Assert that two pandas dataframes are the equal
+    Assert that two pandas DataFrame, Index, or Series objects are the equal
 
     Parameters
     ==========
-    df : pandas DataFrame
-    df_to_compare : pandas DataFrame
+    obj : DataFrame, Index, Series
+    obj_to_compare : DataFrame, Index, Series
     **kwargs : dict
-        keyword arguments passed through to panda's ``assert_frame_equal``
+        keyword arguments passed through to panda's ``assert_frame_equal``,
+        ``assert_index_equal``, and ``assert_series_equal``
 
     Returns
     =======
-    df : DataFrame
+    obj : DataFrame, Index, Series
 
     """
     try:
-        tm.assert_frame_equal(df, df_to_compare, **kwargs)
+        if isinstance(obj, pd.DataFrame):
+            tm.assert_frame_equal(obj, obj_to_compare, **kwargs)
+        elif isinstance(obj, pd.Index):
+            tm.assert_frame_equal(obj, obj_to_compare, **kwargs)
+        elif isinstance(obj, pd.Series):
+            tm.assert_series_equal(obj, obj_to_compare, **kwargs)
+        else:
+            raise TypeError("'obj' is not a pandas DataFrame, Index, or Series")
+
     except AssertionError as exc:
-        six.raise_from(AssertionError("DataFrames are not equal"), exc)
-    return df
+        six.raise_from(AssertionError("obj are not equal"), exc)
+
+    return obj
 
 
 __all__ = [
