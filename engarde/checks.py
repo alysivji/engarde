@@ -293,7 +293,7 @@ def is_same_as(obj, obj_to_compare, **kwargs):
         if isinstance(obj, pd.DataFrame):
             tm.assert_frame_equal(obj, obj_to_compare, **kwargs)
         elif isinstance(obj, pd.Index):
-            tm.assert_frame_equal(obj, obj_to_compare, **kwargs)
+            tm.assert_index_equal(obj, obj_to_compare, **kwargs)
         elif isinstance(obj, pd.Series):
             tm.assert_series_equal(obj, obj_to_compare, **kwargs)
         else:

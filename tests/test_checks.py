@@ -285,7 +285,7 @@ def test_verify_any():
         ck.verify_any(df, f, n=4)
         dc.verify_any(f, n=4)(df)
 
-def test_is_same_as():
+def test_is_same_as_dataframe():
     df = pd.DataFrame({'A': [1, 2, 3], 'B': [1, 2, 3]})
     df_equal = pd.DataFrame({'A': [1, 2, 3], 'B': [1, 2, 3]})
     df_not_equal = pd.DataFrame({'A': [1, 2, 3], 'B': [1, 2, 1]})
@@ -300,7 +300,7 @@ def test_is_same_as():
         ck.is_same_as(df, df_not_equal)
         dc.is_same_as(df_not_equal)(_noop)(df)
 
-def test_is_same_as_with_kwargs():
+def test_is_same_as_with_kwargs_dataframe():
     df = pd.DataFrame({'A': [1, 2, 3], 'B': [1, 2, 3]})
     df_equal = pd.DataFrame({'A': [1, 2, 3], 'B': [1, 2, 3]})
     df_equal_float = pd.DataFrame({'A': [1.0, 2, 3], 'B': [1, 2, 3.0]})
@@ -320,3 +320,76 @@ def test_is_same_as_with_kwargs():
 
     result = dc.is_same_as(df_equal_float, check_dtype=False)(_noop)(df)
     tm.assert_frame_equal(df, result)
+
+def test_is_same_as_index():
+    assert 1 == 1
+    index = pd.Index([1, 2, 3])
+    index_equal = pd.Index([1, 2, 3])
+    index_not_equal = pd.Index([1, 2, 3.0])
+
+    result = ck.is_same_as(index, index_equal)
+    tm.assert_index_equal(index, result)
+
+    result = dc.is_same_as(index_equal)(_noop)(index)
+    tm.assert_index_equal(index, result)
+
+    with pytest.raises(AssertionError):
+        ck.is_same_as(index, index_not_equal)
+        dc.is_same_as(index_not_equal)(_noop)(index)
+
+def test_is_same_as_with_kwargs_index():
+    index = pd.Index([1, 2, 3])
+    index_equal = pd.Index([1, 2, 3])
+    index_equal_float = pd.Index([1, 2, 3.0])
+
+    result = ck.is_same_as(index, index_equal, exact=True)
+    tm.assert_index_equal(index, result)
+
+    result = dc.is_same_as(index_equal, exact=True)(_noop)(index)
+    tm.assert_index_equal(index, result)
+
+    with pytest.raises(AssertionError):
+        ck.is_same_as(index, index_equal_float, exact=True)
+        dc.is_same_as(index_equal_float, exact=True)(_noop)(index)
+
+    result = ck.is_same_as(index, index_equal_float, exact=False)
+    tm.assert_index_equal(index, result)
+
+    result = dc.is_same_as(index_equal_float, exact=False)(_noop)(index)
+    tm.assert_index_equal(index, result)
+
+def test_is_same_as_series():
+    series = pd.Series({'A': [1, 2, 3]}, index=[1, 2, 3])
+    series_equal = pd.Series({'A': [1, 2, 3]}, index=[1, 2, 3])
+    series_not_equal = pd.Series({'A': [1, 2, 3]}, index=[1, 2, 4])
+
+    result = ck.is_same_as(series, series_equal)
+    tm.assert_series_equal(series, result)
+
+    result = dc.is_same_as(series_equal)(_noop)(series)
+    tm.assert_series_equal(series, result)
+
+    with pytest.raises(AssertionError):
+        ck.is_same_as(series, series_not_equal)
+        dc.is_same_as(series_not_equal)(_noop)(series)
+
+def test_is_same_as_with_kwargs_series():
+    series = pd.Series({'A': [1, 2, 3]}, index=[1, 2, 3])
+    series_equal = pd.Series({'A': [1, 2, 3]}, index=[1, 2, 3])
+    series_equal_float = pd.Series({'A': [1, 2, 3]}, index=[1, 2, 3.0])
+
+    result = ck.is_same_as(series, series_equal, check_index_type=True)
+    tm.assert_series_equal(series, result)
+
+    result = dc.is_same_as(series_equal, check_index_type=True)(_noop)(series)
+    tm.assert_series_equal(series, result)
+
+    with pytest.raises(AssertionError):
+        ck.is_same_as(series, series_equal_float, check_index_type=True)
+        dc.is_same_as(series_equal_float, check_index_type=True)(_noop)(series)
+
+    result = ck.is_same_as(series, series_equal_float, check_index_type=False)
+    tm.assert_series_equal(series, result)
+
+    result = dc.is_same_as(series_equal_float, check_index_type=False)(_noop)(series)
+    tm.assert_series_equal(series, result)
