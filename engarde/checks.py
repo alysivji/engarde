@@ -274,7 +274,7 @@ def one_to_many(df, unitcol, manycol):
 
 def is_same_as(obj, obj_to_compare, **kwargs):
     """
-    Assert that two pandas DataFrame, Index, or Series objects are the equal
+    Assert that two pandas DataFrame, Index, or Series objects are equal
 
     Parameters
     ==========
