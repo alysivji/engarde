@@ -282,7 +282,7 @@ def is_same_as(obj, obj_to_compare, **kwargs):
     obj_to_compare : DataFrame, Index, Series
     **kwargs : dict
         keyword arguments passed through to panda's ``assert_frame_equal``,
-        ``assert_index_equal``, and ``assert_series_equal``
+        ``assert_index_equal``, or ``assert_series_equal``
 
     Returns
     =======
